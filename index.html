@@ -20,7 +20,7 @@
     <div class="d-flex justify-content-center align-items-center h-100">
       <form class="w-100">
         <div class="form-group">
-          <label for="rzp_json">Input Json Data</label>
+          <label for="rzp_json">Input / Output Json Data</label>
           <textarea class="form-control" id="rzp_json" rows="10"></textarea>
         </div>
       </form>
@@ -41,8 +41,8 @@
       currency : "INR",
       description: data.order.description ? data.order.description : null,
       handler: function (response) {
-        // alert(response.razorpay_payment_id)
-        alert('wahh!')
+        response.order_id = data.order.id,
+        document.getElementById('rzp_json').value = JSON.stringify(response);
       },
       prefill: {
         "contact" : '+91'+data.customer.phone,
