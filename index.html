@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="utf-8">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <style>
+    .btn {
+      background-color: #13abc4;
+      font-family: "Trebuchet MS"
+    }
+  </style>
+
+</head>
+<body>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+<body>
+  <div class="container">
+    <div class="d-flex justify-content-center align-items-center h-100">
+      <form class="w-100">
+        <div class="form-group">
+          <label for="rzp_json">Input Json Data</label>
+          <textarea class="form-control" id="rzp_json" rows="10"></textarea>
+        </div>
+      </form>
+    </div>
+    <button id="rzp-button" class="btn btn-outline-dark" >Pay with Razorpay</button>
+  </div>
+<script>
+
+  document.getElementById('rzp-button').onclick = function(e){
+
+    let data = JSON.parse(document.getElementById('rzp_json').value);
+
+    let options = {
+      key: data.key, //Paste your API key here before clicking on the Pay Button.
+      order_id: data.rzp_order_id,
+      name: data.customer.firstname + ' ' + data.customer.lastname,
+      amount : data.order_total * 100,
+      currency : "INR",
+      description: data.order.description ? data.order.description : null,
+      handler: function (response) {
+        // alert(response.razorpay_payment_id)
+        alert('wahh!')
+      },
+      prefill: {
+        "contact" : '+91'+data.customer.phone,
+        "email" : data.customer.email
+      },
+
+      notes: {
+        address : data.customer.address ? data.customer.address : null
+      }
+    }
+
+    var rzp1 = new Razorpay(options);
+
+    rzp1.open();
+  }
+
+</script>
+
+</body>
+
+
+
+</body>
+</html>
